@@ -2,138 +2,100 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>PokeDrop.pl – Sklep z Kartami Pokémon</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins&display=swap" rel="stylesheet">
+<title>PokeDrop.pl</title>
 
 <style>
-body{margin:0;font-family:Poppins;background:#fff;color:#111}
-header{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;border-bottom:3px solid #ffd600;position:sticky;top:0;background:#fff;z-index:10}
-.cart-btn{background:#ffd600;padding:10px 20px;border-radius:25px;font-weight:bold;cursor:pointer}
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f5f5f5;
+}
 
-.banner{text-align:center;padding:20px}
-.banner img{max-width:700px;width:95%}
+header{
+    background:#ffcc00;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
-.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:25px;padding:40px}
-.product{border:2px solid #fff3b0;border-radius:15px;padding:15px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.12)}
-.product img{width:140px;border-radius:10px}
-.price{font-family:Orbitron;font-size:18px;margin:10px 0}
-button{background:#ffd600;border:none;padding:8px 16px;border-radius:12px;cursor:pointer;font-weight:bold}
+header h1{
+    margin:0;
+}
 
-#cartPanel{position:fixed;top:0;right:-420px;width:400px;height:100%;background:#fff;box-shadow:-5px 0 20px rgba(0,0,0,.3);padding:20px;transition:.3s;z-index:999;overflow:auto}
-#cartPanel.open{right:0}
-.remove{color:red;cursor:pointer;font-weight:bold}
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:25px;
+    padding:40px;
+}
 
-section{padding:40px;max-width:1000px;margin:auto}
-h2{color:#e6b800}
-footer{text-align:center;padding:25px;border-top:3px solid #ffd600}
-a{color:#e6b800;text-decoration:none;font-weight:bold}
+.product{
+    background:#fff;
+    border-radius:15px;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+.product img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.price{
+    font-size:18px;
+    font-weight:bold;
+    margin:10px 0;
+}
+
+button{
+    background:#ffcc00;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>PokeDrop.pl</h1>
-<div class="cart-btn" onclick="toggleCart()">🛒 Koszyk (<span id="count">0</span>)</div>
+    <h1>PokeDrop.pl</h1>
 </header>
 
-<div class="banner">
-<img src="banner.png" alt="PokeDrop.pl">
-</div>
-
 <section class="products">
-<script>
-for(let i=1;i<=20;i++){
-document.write(`
-<div class="product">
-<h3>Karta Pokémon #${i}</h3>
-<img src="karta1.png">
-<p>Stan: NM | Kolekcjonerska</p>
-<div class="price">${50+i*5} zł</div>
-<button onclick="addToCart('Karta Pokémon #${i}',${50+i*5})">Dodaj do koszyka</button>
-</div>
-`);
-}
-</script>
+
+    <!-- 🔥 PIERWSZA AUKCJA -->
+    <div class="product">
+        <img src="images/produkt1.jpg" alt="Produkt 1">
+        <h3>Karta Pokémon #1</h3>
+        <div class="price">449,99 zł</div>
+        <button>Dodaj do koszyka</button>
+    </div>
+
+    <!-- DRUGA AUKCJA -->
+    <div class="product">
+        <img src="https://via.placeholder.com/300x200">
+        <h3>Karta Pokémon #2</h3>
+        <div class="price">199,99 zł</div>
+        <button>Dodaj do koszyka</button>
+    </div>
+
+    <!-- TRZECIA AUKCJA -->
+    <div class="product">
+        <img src="https://via.placeholder.com/300x200">
+        <h3>Karta Pokémon #3</h3>
+        <div class="price">249,99 zł</div>
+        <button>Dodaj do koszyka</button>
+    </div>
+
 </section>
-
-<div id="cartPanel">
-<span class="remove" onclick="toggleCart()">❌ Zamknij</span>
-<h2>Koszyk</h2>
-<div id="cartItems"></div>
-<p><b>Suma: <span id="total">0</span> zł</b></p>
-
-<hr>
-
-<h3>Dane zamówienia</h3>
-<input placeholder="Imię i nazwisko" style="width:100%;margin-bottom:8px">
-<input placeholder="Email" style="width:100%;margin-bottom:8px">
-<input placeholder="Adres wysyłki" style="width:100%;margin-bottom:8px">
-
-<p>
-<input type="checkbox" id="accept">
-<label for="accept">
-Akceptuję <a href="#regulamin">regulamin</a> i <a href="#polityka">politykę prywatności</a>
-</label>
-</p>
-
-<button onclick="checkout()">Złóż zamówienie</button>
-</div>
-
-<!-- REGULAMIN -->
-<section id="regulamin">
-<h2>Regulamin sklepu PokeDrop.pl</h2>
-
-<p>1. Sklep PokeDrop.pl prowadzi sprzedaż kart kolekcjonerskich Pokémon.</p>
-<p>2. Wszystkie ceny podane są w złotych polskich (PLN).</p>
-<p>3. Zamówienia składane są poprzez stronę internetową.</p>
-<p>4. Płatność i wysyłka ustalana jest po kontakcie mailowym.</p>
-<p>5. Wysyłka realizowana jest na terenie Polski.</p>
-<p>6. Klient ma prawo do reklamacji zgodnie z obowiązującym prawem.</p>
-<p>7. Sklep nie ponosi odpowiedzialności za błędne dane podane przez klienta.</p>
-<p>8. Kontakt: <b>pokedrop@wp.pl</b></p>
-</section>
-
-<!-- POLITYKA -->
-<section id="polityka">
-<h2>Polityka prywatności (RODO)</h2>
-
-<p>1. Administratorem danych osobowych jest właściciel sklepu PokeDrop.pl.</p>
-<p>2. Dane osobowe przetwarzane są wyłącznie w celu realizacji zamówień.</p>
-<p>3. Podanie danych jest dobrowolne, ale konieczne do realizacji zamówienia.</p>
-<p>4. Dane nie są przekazywane osobom trzecim.</p>
-<p>5. Klient ma prawo wglądu, poprawy i usunięcia swoich danych.</p>
-<p>6. Kontakt: <b>pokedrop@wp.pl</b></p>
-</section>
-
-<footer>
-Kontakt: pokedrop@wp.pl<br><br>
-© 2026 PokeDrop.pl
-</footer>
-
-<script>
-let cart=[];
-function toggleCart(){cartPanel.classList.toggle("open")}
-function addToCart(n,p){cart.push({n,p});render()}
-function render(){
-cartItems.innerHTML="";
-let t=0;
-cart.forEach((i,x)=>{
-t+=i.p;
-cartItems.innerHTML+=`${i.n} – ${i.p} zł <span class="remove" onclick="cart.splice(${x},1);render()">X</span><br>`;
-});
-total.innerText=t;
-count.innerText=cart.length;
-}
-function checkout(){
-if(!accept.checked){alert("Musisz zaakceptować regulamin");return;}
-alert("Zamówienie zapisane. Skontaktujemy się mailowo.");
-cart=[];
-render();
-toggleCart();
-}
-</script>
 
 </body>
 </html>
+
